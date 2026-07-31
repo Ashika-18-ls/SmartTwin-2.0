@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Sensor Simulator · SmartTwin 2.0</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap 5 + Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- App styles -->
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Boot loader -->
+<div id="bootLoader">
+  <div class="boot-ring"></div>
+  <div class="font-display" style="font-weight:600;">SmartTwin 2.0</div>
+  <div class="text-mono" style="font-size:.75rem; color:#93A5C4;">Booting Virtual Sensor Simulator…</div>
+</div>
+
+<div class="app-shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark">ST</div>
+      <div>
+        <div class="name">SmartTwin 2.0</div>
+        <div class="sub">Virtual Sensor Simulator</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Monitor</div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#dashboard" data-page="dashboard"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+    </nav>
+
+    <div class="nav-section-label">Asset Nodes</div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#streetlight" data-page="streetlight"><i class="bi bi-lightbulb"></i>Streetlight</a>
+      <a class="nav-link" href="#pipeline" data-page="pipeline"><i class="bi bi-moisture"></i>Pipeline</a>
+      <a class="nav-link" href="#wastebin" data-page="wastebin"><i class="bi bi-trash3"></i>Waste Bin</a>
+      <a class="nav-link" href="#toilet" data-page="toilet"><i class="bi bi-building"></i>Public Toilet</a>
+    </nav>
+
+    <div class="nav-section-label">System</div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="#simlog" data-page="simlog"><i class="bi bi-terminal"></i>Simulation Log</a>
+      <a class="nav-link" href="#settings" data-page="settings"><i class="bi bi-gear"></i>Settings</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      Edge AI Digital Twin<br>Municipal Infra · ECE Final Year
+    </div>
+  </aside>
+
+  <!-- ============ MAIN COLUMN ============ -->
+  <div class="main-col">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="d-flex align-items-center gap-3">
+        <button class="icon-btn d-lg-none" id="sidebarToggle"><i class="bi bi-list"></i></button>
+        <div>
+          <div class="breadcrumb-eyebrow">Virtual Sensor Simulator</div>
+          <div class="page-title" id="pageTitle">Dashboard Overview</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="sim-toggle-wrap">
+          <span class="led led-yellow"></span>
+          <span id="simStatusText" class="text-muted-2">Idle</span>
+          <div class="form-check form-switch mb-0 ms-1">
+            <input class="form-check-input" type="checkbox" id="simSwitch">
+          </div>
+        </div>
+        <div class="clock-chip"><i class="bi bi-clock-history"></i><span id="liveClock">00:00:00</span></div>
+        <button class="icon-btn" id="themeToggle"><i class="bi bi-moon-stars"></i></button>
+      </div>
+    </header>
+
+    <!-- Toasts -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+    <main class="content">
+
+      <!-- ================= DASHBOARD ================= -->
+      <section class="page-section" id="page-dashboard">
+
+        <!-- Digital twin sync strip (signature element) -->
+        <div class="twin-strip">
+          <div class="twin-graph">
+            <div class="twin-hub"><i class="bi bi-cpu" style="font-size:1.3rem;"></i></div>
+            <div class="twin-nodes">
+              <div class="twin-node">
+                <div class="node-ico"><i class="bi bi-lightbulb"></i></div>
+                <div class="node-label">Streetlight</div>
+                <div class="node-sync" id="sync-streetlight">awaiting sync</div>
+              </div>
+              <div class="twin-node">
+                <div class="node-ico"><i class="bi bi-moisture"></i></div>
+                <div class="node-label">Pipeline</div>
+                <div class="node-sync" id="sync-pipeline">awaiting sync</div>
+              </div>
+              <div class="twin-node">
+                <div class="node-ico"><i class="bi bi-trash3"></i></div>
+                <div class="node-label">Waste Bin</div>
+                <div class="node-sync" id="sync-wastebin">awaiting sync</div>
+              </div>
+              <div class="twin-node">
+                <div class="node-ico"><i class="bi bi-building"></i></div>
+                <div class="node-label">Public Toilet</div>
+                <div class="node-sync" id="sync-toilet">awaiting sync</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3" style="font-size:.8rem; color:#B9C7E2;">
+            Edge gateway relaying synthetic telemetry to the digital twin core — this pane will mirror live ESP32 uplinks once hardware is deployed.
+          </div>
+        </div>
+
+        <!-- KPI row -->
+        <div class="row g-3 mb-2">
+          <div class="col-6 col-xl-3">
+            <div class="surface card-pad kpi-card">
+              <div class="kpi-icon" style="background:var(--gray-100); color:var(--navy);"><i class="bi bi-diagram-3"></i></div>
+              <div class="kpi-value">4</div>
+              <div class="kpi-label">Total Assets</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="surface card-pad kpi-card">
+              <div class="kpi-icon" style="background:var(--green-bg); color:var(--green);"><i class="bi bi-broadcast"></i></div>
+              <div class="kpi-value" id="kpi-total-events">0</div>
+              <div class="kpi-label">Telemetry Events</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="surface card-pad kpi-card">
+              <div class="kpi-icon" style="background:var(--orange-bg); color:var(--orange);"><i class="bi bi-toggle-on"></i></div>
+              <div class="kpi-value" style="font-size:1.15rem;" id="kpi-sim-mode">Idle</div>
+              <div class="kpi-label">Simulation Status</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="surface card-pad kpi-card">
+              <div class="kpi-icon" style="background:var(--gray-100); color:var(--navy);"><i class="bi bi-heart-pulse"></i></div>
+              <div class="mt-1" id="kpi-overall-health"></div>
+              <div class="kpi-label mt-2">Overall Health</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Per-asset status cards -->
+        <div class="row g-3">
+          <div class="col-md-6 col-xl-3">
+            <div class="surface card-pad">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted-2" style="font-size:.75rem;">Asset Node</div>
+                  <div class="fw-semibold"><i class="bi bi-lightbulb me-1"></i>Streetlights</div>
+                </div>
+                <div id="kpi-streetlight-status"></div>
+              </div>
+              <a href="#streetlight" data-page="streetlight" class="nav-link p-0 mt-3 text-decoration-none" style="color:var(--navy); font-size:.8rem; font-weight:600;">Open console <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="surface card-pad">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted-2" style="font-size:.75rem;">Asset Node</div>
+                  <div class="fw-semibold"><i class="bi bi-moisture me-1"></i>Pipelines</div>
+                </div>
+                <div id="kpi-pipeline-status"></div>
+              </div>
+              <a href="#pipeline" data-page="pipeline" class="nav-link p-0 mt-3 text-decoration-none" style="color:var(--navy); font-size:.8rem; font-weight:600;">Open console <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="surface card-pad">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted-2" style="font-size:.75rem;">Asset Node</div>
+                  <div class="fw-semibold"><i class="bi bi-trash3 me-1"></i>Waste Bins</div>
+                </div>
+                <div id="kpi-wastebin-status"></div>
+              </div>
+              <a href="#wastebin" data-page="wastebin" class="nav-link p-0 mt-3 text-decoration-none" style="color:var(--navy); font-size:.8rem; font-weight:600;">Open console <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="surface card-pad">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted-2" style="font-size:.75rem;">Asset Node</div>
+                  <div class="fw-semibold"><i class="bi bi-building me-1"></i>Public Toilets</div>
+                </div>
+                <div id="kpi-toilet-status"></div>
+              </div>
+              <a href="#toilet" data-page="toilet" class="nav-link p-0 mt-3 text-decoration-none" style="color:var(--navy); font-size:.8rem; font-weight:600;">Open console <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= STREETLIGHT ================= -->
+      <section class="page-section" id="page-streetlight">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="text-muted-2" style="font-size:.85rem;">Node overview &amp; live status</div>
+          <div id="streetlightStatusBadge"></div>
+        </div>
+        <div class="row g-3" id="streetlightSensors"></div>
+
+        <div class="surface card-pad mt-3">
+          <div class="text-muted-2 mb-2" style="font-size:.78rem; text-transform:uppercase; letter-spacing:.05em;">Fault Scenarios</div>
+          <div class="d-flex flex-wrap gap-2" id="streetlightFaults"></div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="streetlight"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="streetlight"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="streetlight"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="streetlight"><i class="bi bi-send me-1"></i>Send Data</button>
+        </div>
+
+        <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
+          <div class="card-pad pb-0">
+            <div class="console-title"><span><span class="console-dot" style="background:#2ecc71;"></span>ESP32 Uplink Preview — Node SL01</span><span>JSON</span></div>
+          </div>
+          <div class="console-panel" id="streetlightConsole" style="margin:0 1.35rem 1.35rem;">// Click "Send Data" to preview the transmitted packet</div>
+        </div>
+      </section>
+
+      <!-- ================= PIPELINE ================= -->
+      <section class="page-section" id="page-pipeline">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="text-muted-2" style="font-size:.85rem;">Node overview &amp; live status</div>
+          <div id="pipelineStatusBadge"></div>
+        </div>
+        <div class="row g-3" id="pipelineSensors"></div>
+
+        <div class="surface card-pad mt-3">
+          <div class="text-muted-2 mb-2" style="font-size:.78rem; text-transform:uppercase; letter-spacing:.05em;">Fault Scenarios</div>
+          <div class="d-flex flex-wrap gap-2" id="pipelineFaults"></div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="pipeline"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="pipeline"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="pipeline"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="pipeline"><i class="bi bi-send me-1"></i>Send Data</button>
+        </div>
+
+        <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
+          <div class="card-pad pb-0">
+            <div class="console-title"><span><span class="console-dot" style="background:#2ecc71;"></span>ESP32 Uplink Preview — Node PL01</span><span>JSON</span></div>
+          </div>
+          <div class="console-panel" id="pipelineConsole" style="margin:0 1.35rem 1.35rem;">// Click "Send Data" to preview the transmitted packet</div>
+        </div>
+      </section>
+
+      <!-- ================= WASTE BIN ================= -->
+      <section class="page-section" id="page-wastebin">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="text-muted-2" style="font-size:.85rem;">Node overview &amp; live status</div>
+          <div id="wastebinStatusBadge"></div>
+        </div>
+        <div class="row g-3" id="wastebinSensors"></div>
+
+        <div class="surface card-pad mt-3">
+          <div class="text-muted-2 mb-2" style="font-size:.78rem; text-transform:uppercase; letter-spacing:.05em;">Fault Scenarios</div>
+          <div class="d-flex flex-wrap gap-2" id="wastebinFaults"></div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="waste_bin"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="waste_bin"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="waste_bin"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="waste_bin"><i class="bi bi-send me-1"></i>Send Data</button>
+        </div>
+
+        <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
+          <div class="card-pad pb-0">
+            <div class="console-title"><span><span class="console-dot" style="background:#2ecc71;"></span>ESP32 Uplink Preview — Node WB01</span><span>JSON</span></div>
+          </div>
+          <div class="console-panel" id="wastebinConsole" style="margin:0 1.35rem 1.35rem;">// Click "Send Data" to preview the transmitted packet</div>
+        </div>
+      </section>
+
+      <!-- ================= PUBLIC TOILET ================= -->
+      <section class="page-section" id="page-toilet">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="text-muted-2" style="font-size:.85rem;">Node overview &amp; live status</div>
+          <div id="toiletStatusBadge"></div>
+        </div>
+        <div class="row g-3" id="toiletSensors"></div>
+
+        <div class="surface card-pad mt-3">
+          <div class="text-muted-2 mb-2" style="font-size:.78rem; text-transform:uppercase; letter-spacing:.05em;">Fault Scenarios</div>
+          <div class="d-flex flex-wrap gap-2" id="toiletFaults"></div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="public_toilet"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="public_toilet"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="public_toilet"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="public_toilet"><i class="bi bi-send me-1"></i>Send Data</button>
+        </div>
+
+        <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
+          <div class="card-pad pb-0">
+            <div class="console-title"><span><span class="console-dot" style="background:#2ecc71;"></span>ESP32 Uplink Preview — Node PT01</span><span>JSON</span></div>
+          </div>
+          <div class="console-panel" id="toiletConsole" style="margin:0 1.35rem 1.35rem;">// Click "Send Data" to preview the transmitted packet</div>
+        </div>
+      </section>
+
+      <!-- ================= SIMULATION LOG ================= -->
+      <section class="page-section" id="page-simlog">
+        <div class="surface card-pad">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <div class="fw-semibold">Transmitted Telemetry Log</div>
+              <div class="text-muted-2" style="font-size:.78rem;"><span id="simLogCount">0</span> packets recorded this session</div>
+            </div>
+            <button class="btn btn-vss btn-vss-outline btn-sm" onclick="VSSLog.clear()"><i class="bi bi-trash3 me-1"></i>Clear Log</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table log-table mb-0">
+              <thead>
+                <tr>
+                  <th>Timestamp</th><th>Node ID</th><th>Asset Type</th><th>Sensor Values</th><th>Fault</th><th>Status</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="simLogBody"></tbody>
+            </table>
+            <div class="text-center text-muted-2 py-4" id="simLogEmpty" style="font-size:.85rem;">
+              No telemetry transmitted yet — visit an asset page and click <b>Send Data</b>.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SETTINGS ================= -->
+      <section class="page-section" id="page-settings">
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="surface card-pad">
+              <div class="fw-semibold mb-3"><i class="bi bi-palette me-2"></i>Appearance</div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <div style="font-size:.88rem;">Dark mode</div>
+                  <div class="text-muted-2" style="font-size:.75rem;">Toggle the console theme</div>
+                </div>
+                <div class="form-check form-switch mb-0">
+                  <input class="form-check-input" type="checkbox" id="settingsDarkSwitch">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="surface card-pad">
+              <div class="fw-semibold mb-3"><i class="bi bi-info-circle me-2"></i>About this Simulator</div>
+              <p class="text-muted-2 mb-1" style="font-size:.85rem;">
+                This Virtual Sensor Simulator emulates four ESP32-based municipal sensor nodes for
+                <b>SmartTwin 2.0 — An Edge AI Digital Twin for Smart Municipal Infrastructure</b>.
+              </p>
+              <p class="text-muted-2 mb-0" style="font-size:.85rem;">
+                Every "Send Data" action emits the exact JSON schema the real hardware nodes will
+                transmit, so the backend and AI pipeline can be developed before deployment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Bootstrap + Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+<!-- App scripts -->
+<script src="js/utils.js"></script>
+<script src="js/asset-builder.js"></script>
+<script src="js/streetlight.js"></script>
+<script src="js/pipeline.js"></script>
+<script src="js/wastebin.js"></script>
+<script src="js/toilet.js"></script>
+<script src="js/simlog.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // keep the settings-page toggle in sync with the topbar toggle
+  document.getElementById("settingsDarkSwitch").addEventListener("change", (e) => {
+    document.getElementById("themeToggle").click();
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("settingsDarkSwitch").checked =
+      document.documentElement.getAttribute("data-theme") === "dark";
+  });
+</script>
+</body>
+</html>
