@@ -1,9 +1,11 @@
-name: Deploy Sensor Simulator to GitHub Pages
+name: Deploy Sensor Simulator
 
 on:
   push:
     branches:
       - main
+
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,17 +25,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload sensor simulator
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./sensor-simulator
+          path: sensor-simulator
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
