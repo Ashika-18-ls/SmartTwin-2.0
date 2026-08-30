@@ -40,3 +40,13 @@ node_modules/
 # ----------------------------
 dist/
 build/
+
+# ----------------------------
+# SQLite database
+# ----------------------------
+*.db
+*.sqlite
+*.sqlite3
+
+# Local database
+backend/*.db

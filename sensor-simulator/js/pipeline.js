@@ -12,6 +12,10 @@ document.addEventListener("vss:init-pipeline", () => {
     faultContainerId: "pipelineFaults",
     consoleId: "pipelineConsole",
     statusBadgeId: "pipelineStatusBadge",
+
+    latitude: 12.988029,
+    longitude: 79.972829,
+
     sensors: [
       { sensorKey: "pressure", label: "Pressure", unit: "bar", hint: "Line pressure at node",
         min: 0, max: 12, step: 0.1, decimals: 1, default: 4.8, warn: 2.0, crit: 1.0, invert: true },

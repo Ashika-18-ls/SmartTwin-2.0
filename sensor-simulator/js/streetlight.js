@@ -12,6 +12,10 @@ document.addEventListener("vss:init-streetlight", () => {
     faultContainerId: "streetlightFaults",
     consoleId: "streetlightConsole",
     statusBadgeId: "streetlightStatusBadge",
+
+    latitude: 12.988029,
+    longitude: 79.972829,
+    
     sensors: [
       { sensorKey: "current", label: "Current", unit: "A", hint: "Load draw of the lamp driver",
         min: 0, max: 5, step: 0.01, decimals: 2, default: 2.31, warn: 3.5, crit: 4.4 },

@@ -67,7 +67,7 @@
     <!-- Topbar -->
     <header class="topbar">
       <div class="d-flex align-items-center gap-3">
-        <button class="icon-btn d-lg-none" id="sidebarToggle"><i class="bi bi-list"></i></button>
+        <button type="button" class="icon-btn d-lg-none" id="sidebarToggle"><i class="bi bi-list"></i></button>
         <div>
           <div class="breadcrumb-eyebrow">Virtual Sensor Simulator</div>
           <div class="page-title" id="pageTitle">Dashboard Overview</div>
@@ -82,7 +82,7 @@
           </div>
         </div>
         <div class="clock-chip"><i class="bi bi-clock-history"></i><span id="liveClock">00:00:00</span></div>
-        <button class="icon-btn" id="themeToggle"><i class="bi bi-moon-stars"></i></button>
+        <button type="button" class="icon-btn" id="themeToggle"><i class="bi bi-moon-stars"></i></button>
       </div>
     </header>
 
@@ -225,10 +225,10 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 mt-3">
-          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="streetlight"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
-          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="streetlight"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
-          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="streetlight"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
-          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="streetlight"><i class="bi bi-send me-1"></i>Send Data</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="streetlight"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button type="button" class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="streetlight"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="streetlight"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button type="button" class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="streetlight"><i class="bi bi-send me-1"></i>Send Data</button>
         </div>
 
         <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
@@ -253,10 +253,10 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 mt-3">
-          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="pipeline"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
-          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="pipeline"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
-          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="pipeline"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
-          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="pipeline"><i class="bi bi-send me-1"></i>Send Data</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="pipeline"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button type="button" class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="pipeline"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="pipeline"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button type="button" class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="pipeline"><i class="bi bi-send me-1"></i>Send Data</button>
         </div>
 
         <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
@@ -281,10 +281,10 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 mt-3">
-          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="waste_bin"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
-          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="waste_bin"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
-          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="waste_bin"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
-          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="waste_bin"><i class="bi bi-send me-1"></i>Send Data</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="waste_bin"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button type="button" class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="waste_bin"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="waste_bin"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button type="button" class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="waste_bin"><i class="bi bi-send me-1"></i>Send Data</button>
         </div>
 
         <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">
@@ -309,10 +309,10 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 mt-3">
-          <button class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="public_toilet"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
-          <button class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="public_toilet"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
-          <button class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="public_toilet"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
-          <button class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="public_toilet"><i class="bi bi-send me-1"></i>Send Data</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="random" data-asset-type="public_toilet"><i class="bi bi-shuffle me-1"></i>Generate Random Data</button>
+          <button type="button" class="btn btn-vss btn-vss-red" data-action="fault" data-asset-type="public_toilet"><i class="bi bi-exclamation-triangle me-1"></i>Inject Fault</button>
+          <button type="button" class="btn btn-vss btn-vss-outline" data-action="reset" data-asset-type="public_toilet"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset</button>
+          <button type="button" class="btn btn-vss btn-vss-navy" data-action="send" data-asset-type="public_toilet"><i class="bi bi-send me-1"></i>Send Data</button>
         </div>
 
         <div class="surface mt-3" style="background:#0B1622; border-color:#1C2A3D;">

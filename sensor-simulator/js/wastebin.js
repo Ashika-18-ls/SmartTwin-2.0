@@ -12,6 +12,8 @@ document.addEventListener("vss:init-wastebin", () => {
     faultContainerId: "wastebinFaults",
     consoleId: "wastebinConsole",
     statusBadgeId: "wastebinStatusBadge",
+    latitude: 12.988029,
+    longitude: 79.972829,
     sensors: [
       { sensorKey: "fill_level", label: "Fill Level", unit: "%", hint: "Ultrasonic fill sensor",
         min: 0, max: 100, step: 1, decimals: 0, default: 42, warn: 75, crit: 92 },

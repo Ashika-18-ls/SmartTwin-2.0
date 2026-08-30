@@ -79,8 +79,10 @@
       simStatusText.textContent = "Running";
       simStatusText.parentElement.querySelector(".led").className = "led led-green";
       simTimer = setInterval(tick, 3000);
+      console.log("SIMULATION STARTED", simSwitch.checked);
       VSS.toast("Auto simulation started — broadcasting every 3s", "green");
     } else {
+      console.log("SIMULATION STOPED", simSwitch.checked);
       simStatusText.textContent = "Idle";
       simStatusText.parentElement.querySelector(".led").className = "led led-yellow";
       clearInterval(simTimer);
@@ -90,16 +92,22 @@
 
   /* ---------------- Generic per-page action buttons ---------------- */
   document.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const asset = VSS.assets[btn.dataset.assetType];
-      if (!asset) return;
-      const action = btn.dataset.action;
-      if (action === "random") asset.generateRandom();
-      if (action === "fault") asset.injectRandomFault();
-      if (action === "reset") asset.resetAll();
-      if (action === "send") asset.sendData();
-    });
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();  
+    e.stopPropagation();
+
+    const asset = VSS.assets[btn.dataset.assetType];
+    if (!asset) return;
+
+    const action = btn.dataset.action;
+
+    if (action === "random") asset.generateRandom();
+    if (action === "fault") asset.injectRandomFault();
+    if (action === "reset") asset.resetAll();
+    if (action === "send") asset.sendData();
   });
+});
+
 
   /* ---------------- Dashboard KPIs + digital twin strip ---------------- */
   const kpiEls = {

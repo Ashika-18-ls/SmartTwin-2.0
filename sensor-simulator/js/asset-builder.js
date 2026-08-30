@@ -10,7 +10,7 @@ VSS.assets = {}; // registry: assetType -> { config, state, nodeId }
 
 VSS.buildAssetModule = (config) => {
   const { key, assetType, nodeIdPrefix, containerId, faultContainerId,
-          consoleId, statusBadgeId, sensors, faults } = config;
+          consoleId, statusBadgeId, sensors, faults, latitude, longitude } = config;
 
   const state = {};
   const gauges = {};
@@ -214,11 +214,16 @@ VSS.buildAssetModule = (config) => {
   };
 
   const sendData = () => {
-    const payload = { node_id: nodeId, asset_type: assetType };
+    const payload = { 
+      node_id: nodeId, 
+      asset_type: assetType,
+      latitude: latitude,
+      longitude: longitude  
+    };
     sensors.forEach(s => { payload[s.sensorKey] = state[s.sensorKey]; });
     payload.timestamp = VSS.nowISO();
     VSS.renderJSON(consoleId, payload);
-    VSS.sendToGateway(payload);
+    await VSS.sendToGateway(payload);
 
     const status = refreshOverallStatus();
     VSS.pushLog({
