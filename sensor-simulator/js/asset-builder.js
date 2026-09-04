@@ -223,7 +223,7 @@ VSS.buildAssetModule = (config) => {
     sensors.forEach(s => { payload[s.sensorKey] = state[s.sensorKey]; });
     payload.timestamp = VSS.nowISO();
     VSS.renderJSON(consoleId, payload);
-    await VSS.sendToGateway(payload);
+    VSS.sendToGateway(payload);
 
     const status = refreshOverallStatus();
     VSS.pushLog({
