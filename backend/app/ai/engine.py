@@ -10,7 +10,7 @@ def analyze_asset(asset_type, sensors):
 
     fault = classify_fault(asset_type, sensors)
 
-    health_score = calculate_health_score(anomalies)
+    health_score = calculate_health_score(anomalies, fault)
 
     priority = calculate_priority(health_score, fault)
 
